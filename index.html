@@ -29,6 +29,10 @@
             --panel-border: rgba(255, 255, 255, 0.08);
         }
 
+        body.dark .post-content p {
+            color: #d7dce3;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -39,7 +43,7 @@
         body {
             display: flex;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -48,7 +52,7 @@
         aside {
             width: var(--sidebar-width);
             background-color: var(--sidebar-bg);
-            color: var(--text-color);
+            color: #ffffff;
             position: fixed;
             top: 0;
             bottom: 0;
@@ -69,7 +73,7 @@
         aside h1 {
             font-size: 1.4rem;
             margin-bottom: 0.3rem;
-            color: var(--text-color);
+            color: #ffffff;
         }
 
         aside p {
@@ -108,7 +112,7 @@
             top: 20px;
             left: calc(var(--sidebar-width) + 20px);
             background-color: var(--panel-bg);
-            color: var(--text-color);
+            color: #ffffff;
             border: 1px solid var(--panel-border);
             padding: 10px 15px;
             font-size: 1rem;

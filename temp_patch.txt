@@ -1,0 +1,10 @@
+*** Begin Patch
+*** Update File: c:\Users\sebas\sebavermeulen-game.github.io\index.html
+@@
+         aside h1 {
+             font-size: 1.4rem;
+             margin-bottom: 0.3rem;
+-            color: var(--text-color);
++            color: #ffffff;
+         }
+*** End Patch
