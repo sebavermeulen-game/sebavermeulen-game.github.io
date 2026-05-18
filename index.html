@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stuttgart International Project Blog</title>
-    <link rel="icon" href="image.png" type="image/png">
+    <link rel="icon" href="/images/favicon.png" type="image/png">
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -169,6 +169,92 @@
             line-height: 1.8;
             margin-bottom: 1.5rem;
             color: #4a4a4a;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .carousel-button {
+            background: rgba(0,0,0,0.45);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.75rem;
+            cursor: pointer;
+            pointer-events: all;
+            transition: background 0.2s ease;
+        }
+
+        .carousel-button:hover {
+            background: rgba(0,0,0,0.65);
+        }
+
+        .carousel-pagination {
+            position: absolute;
+            left: 50%;
+            bottom: 0.9rem;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.45rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.9);
+        }
+
+        .carousel-dot.active {
+            background: rgba(255,255,255,1);
         }
 
         /* HOME PAGE SPECIFIC STYLES */
@@ -367,7 +453,25 @@
             <article id="day6" class="blog-page">
                 <h2>Zoo and Game Jam Awards</h2>
                     <div class="post-meta"><span>📅 May 18, 2026</span><span>👤 By Sebastiaan Vermeulen</span></div>
-                    <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=800&q=80" alt="Zoo animals" class="post-img">
+                    <div class="carousel-wrapper">
+                        <div class="carousel" id="zooCarousel">
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_115230816.jpg" alt="Zoo picture 1"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_122320694.jpg" alt="Zoo picture 2"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_125249780.jpg" alt="Zoo picture 3"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_131621164.jpg" alt="Zoo picture 4"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_132834429.jpg" alt="Zoo picture 5"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_132922071.jpg" alt="Zoo picture 6"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_134357569.jpg" alt="Zoo picture 7"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG_20260507_134845563.jpg" alt="Zoo picture 8"></div>
+                            <div class="carousel-slide"><img src="images/zoo/PICT0142.jpg" alt="Zoo picture 9"></div>
+                            <div class="carousel-slide"><img src="images/zoo/IMG-20260507-WA0010.jpg" alt="Zoo picture 10"></div>
+                        </div>
+                        <div class="carousel-controls">
+                            <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                            <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                        </div>
+                        <div class="carousel-pagination" id="zooCarouselDots"></div>
+                    </div>
                     <div class="post-content">
                         <p>Day 6 in Stuttgart was a study in contrasts, moving from the quiet observation of nature in the morning to the high-energy anticipation of the game jam awards in the evening.</p>
 
@@ -438,12 +542,88 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Zoo carousel automation and navigation
+        function initCarousel(carouselId, dotsId, intervalMs = 4000) {
+            const carousel = document.getElementById(carouselId);
+            const dotsContainer = document.getElementById(dotsId);
+            if (!carousel || !dotsContainer) return;
+
+            const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+            let currentIndex = 0;
+            let autoPlayTimer = null;
+
+            function updateDots() {
+                dotsContainer.innerHTML = '';
+                slides.forEach((slide, index) => {
+                    const dot = document.createElement('button');
+                    dot.type = 'button';
+                    dot.className = 'carousel-dot' + (index === currentIndex ? ' active' : '');
+                    dot.addEventListener('click', () => {
+                        currentIndex = index;
+                        scrollToSlide(index);
+                        resetAutoplay();
+                    });
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            function scrollToSlide(index) {
+                const slide = slides[index];
+                if (!slide) return;
+                carousel.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+                currentIndex = index;
+                updateDots();
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                scrollToSlide(currentIndex);
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                scrollToSlide(currentIndex);
+            }
+
+            function resetAutoplay() {
+                if (autoPlayTimer) clearInterval(autoPlayTimer);
+                autoPlayTimer = setInterval(nextSlide, intervalMs);
+            }
+
+            carousel.addEventListener('scroll', () => {
+                const alignedIndex = slides.findIndex((slide, index) => {
+                    const diff = Math.abs(carousel.scrollLeft - slide.offsetLeft);
+                    return diff < slide.offsetWidth / 2;
+                });
+                if (alignedIndex >= 0 && alignedIndex !== currentIndex) {
+                    currentIndex = alignedIndex;
+                    updateDots();
+                }
+            });
+
+            const controls = carousel.parentElement.querySelectorAll('.carousel-button');
+            controls.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.dataset.direction === 'next') {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    resetAutoplay();
+                });
+            });
+
+            updateDots();
+            resetAutoplay();
+        }
+
         // URL Hash support (Allows page bookmarking/refreshing directly to tabs)
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) {
                 switchPage(hash);
             }
+            initCarousel('zooCarousel', 'zooCarouselDots', 4500);
         });
     </script>
 </body>
