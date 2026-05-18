@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stuttgart International Project Blog</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR STYLES */
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            color: white;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 2rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        /* Collapsed Sidebar State */
+        body.sidebar-collapsed aside {
+            transform: translateX(-100%);
+        }
+
+        aside h1 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            color: #fff;
+        }
+
+        aside p {
+            font-size: 0.8rem;
+            color: #bdc3c7;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .nav-links li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links li a:hover, .nav-links li.active a {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* TOGGLE SIDEBAR BUTTON */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: calc(var(--sidebar-width) + 20px);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        body.sidebar-collapsed .toggle-btn {
+            left: 20px;
+            background-color: var(--accent-color);
+        }
+
+        /* MAIN CONTENT AREA (Centered formatting) */
+        main {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 6rem 2rem 4rem 2rem; /* Extra top padding to make space for the button */
+            display: flex;
+            justify-content: center; /* Centers horizontally relative to sidebar */
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.sidebar-collapsed main {
+            margin-left: 0;
+        }
+
+        /* Content Wrapper (keeps the posts from getting stretched too wide) */
+        .content-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* DYNAMIC PAGES */
+        .blog-page {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .blog-page.active {
+            display: block;
+        }
+
+        /* POST STRUCTURE */
+        h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .post-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .post-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .post-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #4a4a4a;
+        }
+
+        /* HOME PAGE SPECIFIC STYLES */
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .home-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .home-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .home-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .home-card-body {
+            padding: 1rem;
+        }
+
+        .home-card-body h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            body.sidebar-open aside {
+                transform: translateX(0);
+            }
+            main, body.sidebar-collapsed main {
+                margin-left: 0;
+                padding-top: 5rem;
+            }
+            .toggle-btn, body.sidebar-collapsed .toggle-btn {
+                left: 20px;
+            }
+            .post-img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR TOGGLE BUTTON -->
+    <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebar">
+        <h1>Stuttgart '26</h1>
+        <p>International Project</p>
+        <ul class="nav-links">
+            <li class="active" id="nav-home" onclick="switchPage('home')"><a href="#home">🏠 Home</a></li>
+            <li id="nav-day1" onclick="switchPage('day1')"><a href="#day1">Game Jam Day 1</a></li>
+            <li id="nav-day2" onclick="switchPage('day2')"><a href="#day2">Game Jam Day 2</a></li>
+            <li id="nav-day3" onclick="switchPage('day3')"><a href="#day3">Game Jam Day 3</a></li>
+            <li id="nav-day4" onclick="switchPage('day4')"><a href="#day4">FTX/ITFS Day 1</a></li>
+            <li id="nav-day5" onclick="switchPage('day5')"><a href="#day5">FTX/ITFS Day 2</a></li>
+            <li id="nav-day6" onclick="switchPage('day6')"><a href="#day6">Zoo & Awards</a></li>
+            <li id="nav-day7" onclick="switchPage('day7')"><a href="#day7">FTX/ITFS Day 4</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main>
+        <div class="content-container">
+            
+            <!-- HOME PAGE -->
+            <article id="home" class="blog-page active">
+                <h2>International Project Stuttgart 2026</h2>
+                <div class="post-meta">
+                    <span>📍 Stuttgart, Germany</span>
+                    <span>✨ Student Blog Portfolio</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=80" alt="Stuttgart Cityscape" class="post-img">
+                <div class="post-content">
+                    <p>Welcome to our official project diary documenting our study trip to Stuttgart! This blog covers our journey through an intensive Game Jam, followed by visits to the prestigious FMX (Film & Media Exchange) and ITFS (Stuttgart International Festival of Animated Film).</p>
+                    <h3>Explore our Journey:</h3>
+                    
+                    <div class="home-grid">
+                        <div class="home-card" onclick="switchPage('day1')">
+                            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" alt="Game Jam 1">
+                            <div class="home-card-body"><h4>Game Jam Day 1</h4><p>Brainstorming & mechanics...</p></div>
+                        </div>
+                        <div class="home-card" onclick="switchPage('day2')">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80" alt="Game Jam 2">
+                            <div class="home-card-body"><h4>Game Jam Day 2</h4><p>Coding and asset generation...</p></div>
+                        </div>
+                        <div class="home-card" onclick="switchPage('day3')">
+                            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" alt="Game Jam 3">
+                            <div class="home-card-body"><h4>Game Jam Day 3</h4><p>Polishing and submission...</p></div>
+                        </div>
+                        <div class="home-card" onclick="switchPage('day4')">
+                            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80" alt="FTX 1">
+                            <div class="home-card-body"><h4>FTX/ITFS Day 1</h4><p>Festival open and keynotes...</p></div>
+                        </div>
+                        <div class="home-card" onclick="switchPage('day5')">
+                            <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80" alt="FTX 2">
+                            <div class="home-card-body"><h4>FTX/ITFS Day 2</h4><p>Industry talks & conferences...</p></div>
+                        </div>
+                        <div class="home-card" onclick="switchPage('day6')">
+                            <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80" alt="Zoo">
+                            <div class="home-card-body"><h4>Zoo & Awards</h4><p>Wilhelma Zoo & award nights...</p></div>
+                        </div>
+                        <div class="home-card" onclick="switchPage('day7')">
+                            <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80" alt="FTX 4">
+                            <div class="home-card-body"><h4>FTX/ITFS Day 4</h4><p>Final screenings & wrap-up...</p></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PAGE 1: Game Jam Day 1 -->
+            <article id="day1" class="blog-page">
+                <h2>Game Jam Day 1</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80" alt="Game Jam Development" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id ligula porta felis euismod semper. Cras mattis consectetur purus sit amet fermentum. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+                    <p>Donec ullamcorper nulla non metus auctor fringilla. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+                </div>
+            </article>
+
+            <!-- PAGE 2: Game Jam Day 2 -->
+            <article id="day2" class="blog-page">
+                <h2>Game Jam Day 2</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" alt="Coding" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sapien augue, feugiat et finibus id, finibus eget felis. Aliquam elementum tempor elementum. Curabitur vel accumsan diam. Ut elementum, nunc in feugiat vestibulum.</p>
+                    <p>Morbi hendrerit, erat id vulputate pharetra, neque massa lobortis leo, vel interdum arcu erat vitae augue. Quisque nisl lorem, varius a condimentum quis, rhoncus sit amet lorem. Suspendisse non leo sed velit congue pretium sit amet nec elit.</p>
+                </div>
+            </article>
+
+            <!-- PAGE 3: Game Jam Day 3 -->
+            <article id="day3" class="blog-page">
+                <h2>Game Jam Day 3</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" alt="Gaming setup" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </article>
+
+            <!-- PAGE 4: FTX/ITFS Day 1 -->
+            <article id="day4" class="blog-page">
+                <h2>FTX/ITFS Day 1</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80" alt="Cinema Theatre" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vel sem sit amet lorem pretium feugiat. Quisque sit amet porta justo. In hac habitasse platea dictumst. Curabitur sed nisl non tellus rhoncus eleifend ac elementum dolor.</p>
+                    <p>Phasellus efficitur erat vel pulvinar scelerisque. Fusce venenatis ante id feugiat tristique. Vivamus condimentum erat at elementum maximus. Mauris et sapien ligula. Vestibulum sed tristique sem, eget fringilla lorem.</p>
+                </div>
+            </article>
+
+            <!-- PAGE 5: FTX/ITFS Day 2 -->
+            <article id="day5" class="blog-page">
+                <h2>FTX/ITFS Day 2</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80" alt="Conference Panel" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.</p>
+                    <p>Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc.</p>
+                </div>
+            </article>
+
+            <!-- PAGE 6: Zoo and Game Jam Awards -->
+            <article id="day6" class="blog-page">
+                <h2>Zoo and Game Jam Awards</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=800&q=80" alt="Zoo animals" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+                    <p>Placerat orci nulla pellentesque dignissim enim sit amet venenatis. Nunc consequat interdum varius sit amet mattis vulputate. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo. Egestas integer eget aliquet nibh praesent tristique.</p>
+                </div>
+            </article>
+
+            <!-- PAGE 7: FTX/ITFS Day 4 -->
+            <article id="day7" class="blog-page">
+                <h2>FTX/ITFS Day 4</h2>
+                <div class="post-meta"><span>📅 May 2026</span><span>👤 By Project Team</span></div>
+                <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80" alt="Projector" class="post-img">
+                <div class="post-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Uniquely adapt high-quality standard-compliant external channels through global alignment processes.</p>
+                    <p>Compellingly transition proactive testing procedures rather than multi-media initiatives. Collaboratively transition cutting-edge technologies via standards compliant intellectual capital. Efficiently engineer resource-leveling methodologies before strategic supply chains.</p>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT FOR SIDEBAR COLLAPSE & NAVIGATION -->
+    <script>
+        // Toggle Sidebar Functionality
+        function toggleSidebar() {
+            if (window.innerWidth > 900) {
+                // Desktop toggle using margin shift
+                document.body.classList.toggle('sidebar-collapsed');
+            } else {
+                // Mobile toggle using overlay style
+                document.body.classList.toggle('sidebar-open');
+            }
+        }
+
+        // Page Navigation Routing Functionality
+        function switchPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.blog-page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+
+            // Update highlighted navigation button
+            const navItems = document.querySelectorAll('.nav-links li');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+
+            // On mobile, auto-close the sidebar when a page link is clicked
+            if (window.innerWidth <= 900) {
+                document.body.classList.remove('sidebar-open');
+            }
+
+            // Smooth scroll back up to view the fresh page content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // URL Hash support (Allows page bookmarking/refreshing directly to tabs)
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                switchPage(hash);
+            }
+        });
+    </script>
+</body>
+</html>
