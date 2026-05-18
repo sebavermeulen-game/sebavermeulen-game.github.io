@@ -11,7 +11,22 @@
             --accent-color: #e74c3c;
             --bg-color: #f8f9fa;
             --text-color: #333;
+            --sidebar-bg: #2c3e50;
+            --page-bg: #f8f9fa;
+            --panel-bg: #ffffff;
+            --panel-border: rgba(44, 62, 80, 0.08);
             --sidebar-width: 280px;
+        }
+
+        body.dark {
+            --primary-color: #ecf0f1;
+            --accent-color: #f39c12;
+            --bg-color: #121418;
+            --text-color: #ececec;
+            --sidebar-bg: #18202b;
+            --page-bg: #10131a;
+            --panel-bg: #161b24;
+            --panel-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -102,6 +117,32 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             z-index: 1001;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255,255,255,0.93);
+            color: #2c3e50;
+            border: 1px solid rgba(44, 62, 80, 0.12);
+            padding: 10px 14px;
+            font-size: 1rem;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            z-index: 1002;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        body.dark .theme-toggle-btn {
+            background-color: rgba(28, 33, 44, 0.95);
+            color: #f8f9fa;
+            border-color: rgba(255,255,255,0.12);
         }
 
         body.sidebar-collapsed .toggle-btn {
@@ -328,6 +369,7 @@
 
     <!-- SIDEBAR TOGGLE BUTTON -->
     <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙 Dark</button>
 
     <!-- SIDEBAR NAVIGATION -->
     <aside id="sidebar">
@@ -542,6 +584,40 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function updateThemeToggleText() {
+            const button = document.getElementById('themeToggleBtn');
+            if (!button) return;
+            if (document.body.classList.contains('dark')) {
+                button.textContent = '☀️ Light';
+            } else {
+                button.textContent = '🌙 Dark';
+            }
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+            localStorage.setItem('theme', theme);
+            updateThemeToggleText();
+        }
+
+        function toggleTheme() {
+            const nextTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+            setTheme(nextTheme);
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        }
+
         // Zoo carousel automation and navigation
         function initCarousel(carouselId, dotsId, intervalMs = 4000) {
             const carousel = document.getElementById(carouselId);
@@ -619,6 +695,7 @@
 
         // URL Hash support (Allows page bookmarking/refreshing directly to tabs)
         window.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) {
                 switchPage(hash);
