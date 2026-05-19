@@ -503,14 +503,14 @@
                 <div class="post-meta"><span>📅 May 19, 2026</span><span>👤 By Mitchell Kerselaers</span></div>
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80" alt="Cinema Theatre" class="post-img">
                 <div class="post-content">
-                    <p>When we were on Tuesday, the time for FMX had come. After a quick train ride, we arrived at the (insert location, I don’t remember the name of the place). After getting our badges, we first walked around and visited some stands.</p>
+                    <p>When we were on Tuesday, the time for FMX had come. After a quick train ride, we arrived at the Schlossplatz. After getting our badges, we first walked around and visited some stands.</p>
                     <p>Then we decided to go to the Filmakademie Projects: Graduation Project showing, and then we discovered we had chosen the perfect one because some of the students presenting were from some of our teams and people we had hung out with during the Game Jam. It was great since we got to see what else these incredibly creative people did when given more time. After that, we got to play the games they had worked on, which one was a four-player game, so it worked just perfectly.</p>
                     <p>After a few other showings, we snacked on some food and went to some stores nearby that we wanted to check out. Then we head to the (again don’t remember the location) to get our ITFS badges, since starting yesterday we would each go to the GameZone for our shifts in our Game Jam stand.</p>
                     <p>Meanwhile, we walked around the city centre and did some sightseeing. For the evening, we decided to sit at a bar and enjoy a few drinks. After that, we went to a restaurant and ate some Dürüm along with Baklava.</p>
                     <p>But we were not ready to end the day just yet, so we gathered in my room and played some board games until we were dozing off.</p>
                 </div>
             </article>
-
+            
             <!-- PAGE 5: FMX/ITFS Day 2 -->
             <article id="day5" class="blog-page">
                 <h2>FMX/ITFS Day 2</h2>
@@ -605,6 +605,14 @@
             // On mobile, auto-close the sidebar when a page link is clicked
             if (window.innerWidth <= 900) {
                 document.body.classList.remove('sidebar-open');
+            }
+
+            // Update URL hash without causing the browser to auto-scroll
+            if (history && history.replaceState) {
+                history.replaceState(null, '', '#' + pageId);
+            } else {
+                // Fallback: set hash (may trigger default scroll)
+                window.location.hash = pageId;
             }
 
             // Smooth scroll back up to view the fresh page content
