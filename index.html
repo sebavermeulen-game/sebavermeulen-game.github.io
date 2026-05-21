@@ -562,7 +562,19 @@
             <article id="day7" class="blog-page">
                 <h2>FMX/ITFS Day 4</h2>
                 <div class="post-meta"><span>📅 May 21, 2026</span><span>👤 By Season Thapa</span></div>
-                <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80" alt="Projector" class="post-img">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="day7Carousel">
+                        <div class="carousel-slide"><img src="images/day7/2ecaa643-11d8-437d-8f44-11bdb1836d2f.jpg" alt="FMX Day 4 image 1"></div>
+                        <div class="carousel-slide"><img src="images/day7/99d15744-69b5-4eb9-88fe-78c5717f3fd1.jpg" alt="FMX Day 4 image 2"></div>
+                        <div class="carousel-slide"><img src="images/day7/9c15f8ed-bda0-413c-aaa3-b0a7df1f0dd6.jpg" alt="FMX Day 4 image 3"></div>
+                        <div class="carousel-slide"><img src="images/day7/c9d5ae53-0def-4a16-8762-814a5106b34b.jpg" alt="FMX Day 4 image 4"></div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                        <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                    </div>
+                    <div class="carousel-pagination" id="day7CarouselDots"></div>
+                </div>
                 <div class="post-content">
                     <p>After a heavy night at the Game Jam voting party, we started the morning a little slowly before heading to the game zone exhibition at the Staatsgalerie Stuttgart, where we showcased the games we had created during the jam.</p>
                     <p>As the afternoon went on, more visitors began arriving, giving us the opportunity to present our game to new people and observe their reactions firsthand. It was exciting to see people enjoying the game we had worked so hard on, while also getting inspired by the creative projects developed by other students. The exhibition created a fun and energetic atmosphere where everyone could exchange ideas, experiences, and feedback.</p>
@@ -742,6 +754,7 @@
                 switchPage(hash);
             }
             initCarousel('zooCarousel', 'zooCarouselDots', 4500);
+            initCarousel('day7Carousel', 'day7CarouselDots', 4500);
         });
     </script>
 </body>
