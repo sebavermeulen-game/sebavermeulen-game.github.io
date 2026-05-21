@@ -518,7 +518,17 @@
             <article id="day5" class="blog-page">
                 <h2>FMX/ITFS Day 2</h2>
                 <div class="post-meta"><span>📅 May 21, 2026</span><span>👤 By Season Thapa</span></div>
-                <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80" alt="Conference Panel" class="post-img">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="day5Carousel">
+                        <div class="carousel-slide"><img src="images/day5/69692a03-17e6-4ac9-80a1-3be10b410d2d.jpg" alt="FMX Day 2 image 1"></div>
+                        <div class="carousel-slide"><img src="images/day5/d3ce52c1-1f1c-40bd-8cfa-97ca721180a0.jpg" alt="FMX Day 2 image 2"></div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                        <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                    </div>
+                    <div class="carousel-pagination" id="day5CarouselDots"></div>
+                </div>
                 <div class="post-content">
                     <p>Around late morning, we took the subway again to attend more events during FMX week. Several interesting presentations were scheduled for the day, including a session about the VFX used in a dinosaur documentary and another about the VFX of Avatar: The Way of Water.</p>
                     <p>Since we had already watched these documentaries and movies before, we were excited to learn how such incredible scenes were created behind the scenes. It was fascinating to see the amount of detail, creativity, and technical skill involved in producing realistic dinosaurs and immersive visual worlds.</p>
@@ -754,6 +764,7 @@
                 switchPage(hash);
             }
             initCarousel('zooCarousel', 'zooCarouselDots', 4500);
+            initCarousel('day5Carousel', 'day5CarouselDots', 4500);
             initCarousel('day7Carousel', 'day7CarouselDots', 4500);
         });
     </script>
