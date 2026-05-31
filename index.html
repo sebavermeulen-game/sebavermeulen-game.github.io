@@ -419,38 +419,38 @@
                     <span>📍 Stuttgart, Germany</span>
                     <span>✨ Student Blog Portfolio</span>
                 </div>
-                <img src="https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=80" alt="Stuttgart Cityscape" class="post-img">
+                <img src="images/day1/8d997a21-bed8-445b-bb79-44d42b4f0e23.jpg" alt="Game Jam Day 1" class="post-img">
                 <div class="post-content">
                     <p>Welcome to our official project diary documenting our study trip to Stuttgart! This blog covers our journey through an intensive Game Jam, followed by visits to the prestigious FMX (Film & Media Exchange) and ITFS (Stuttgart International Festival of Animated Film).</p>
                     <h3>Explore our Journey:</h3>
                     
                     <div class="home-grid">
                         <div class="home-card" onclick="switchPage('day1')">
-                            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" alt="Game Jam 1">
+                            <img src="images/day1/8d997a21-bed8-445b-bb79-44d42b4f0e23.jpg" alt="Game Jam Day 1">
                             <div class="home-card-body"><h4>AI Slop & a Clockwork Sprint</h4><p>The theme is revealed, and the teams split into action.</p></div>
                         </div>
                         <div class="home-card" onclick="switchPage('day2')">
-                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80" alt="Game Jam 2">
+                            <img src="images/day2/image1.png" alt="Game Jam Day 2">
                             <div class="home-card-body"><h4>Pizza, Progress & Problem Solving</h4><p>Code, iterate, and push through the first major setbacks.</p></div>
                         </div>
                         <div class="home-card" onclick="switchPage('day3')">
-                            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" alt="Game Jam 3">
+                            <img src="images/day3/bbcb2e0b-5828-45bb-ba2c-ea5af7dd0f17.jpg" alt="Game Jam Day 3">
                             <div class="home-card-body"><h4>The Final Sprint</h4><p>Final builds, export checks, and the big presentation.</p></div>
                         </div>
                         <div class="home-card" onclick="switchPage('day4')">
-                            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80" alt="FTX 1">
+                            <img src="images/day4/image5.png" alt="FMX Day 1">
                             <div class="home-card-body"><h4>First Glimpse of FMX</h4><p>Badges, stands, and the first look at the festival.</p></div>
                         </div>
                         <div class="home-card" onclick="switchPage('day5')">
-                            <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80" alt="FTX 2">
+                            <img src="images/day5/69692a03-17e6-4ac9-80a1-3be10b410d2d.jpg" alt="FMX Day 2">
                             <div class="home-card-body"><h4>Behind the Scenes of the Big Screen</h4><p>VFX talks, cinematic inspiration, and new perspectives.</p></div>
                         </div>
                         <div class="home-card" onclick="switchPage('day6')">
-                            <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80" alt="Zoo">
+                            <img src="images/zoo/IMG_20260507_115230816.jpg" alt="Zoo Visit">
                             <div class="home-card-body"><h4>Wildlife & Winners</h4><p>A calm zoo visit followed by the jam awards ceremony.</p></div>
                         </div>
                         <div class="home-card" onclick="switchPage('day7')">
-                            <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80" alt="FTX 4">
+                            <img src="images/day7/2ecaa643-11d8-437d-8f44-11bdb1836d2f.jpg" alt="FMX Day 4">
                             <div class="home-card-body"><h4>The Last Glow</h4><p>A final showcase, a relaxed evening, and one last stroll through Stuttgart.</p></div>
                         </div>
                     </div>
@@ -461,7 +461,17 @@
             <article id="day1" class="blog-page">
                 <h2>The Theme Drops: AI Slop and a Race Against Time</h2>
                 <div class="post-meta"><span>📅 May 19, 2026</span><span>👤 By Aslı Pelinsu Öztürk</span></div>
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80" alt="Game Jam Development" class="post-img">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="day1Carousel">
+                        <div class="carousel-slide"><img src="images/day1/8d997a21-bed8-445b-bb79-44d42b4f0e23.jpg" alt="Game Jam Day 1 image 1"></div>
+                        <div class="carousel-slide"><img src="images/day1/image.jpg" alt="Game Jam Day 1 image 2"></div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                        <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                    </div>
+                    <div class="carousel-pagination" id="day1CarouselDots"></div>
+                </div>
                 <div class="post-content">
                     <p>The first day of the Game Jam, we all woke up to an early morning, excited to go to our host university HdM, and meet our teams we would be working with for the event. After a short car trip, we took our first step to the beautiful campus where we would spend the next three days grinding to put together our video games.</p>
                     <p>When we finally found our way through the tiny labyrinth of stairs and corridors, the room had been almost filled out with fellow developers, designers and artists. After another few minutes, the organizing team gave their welcome presentation and finally announced the theme, drum rolls… AI Slop!</p>
@@ -477,7 +487,17 @@
             <article id="day2" class="blog-page">
                 <h2>Coffee, Pizza & Progress</h2>
                 <div class="post-meta"><span>📅 May 19, 2026</span><span>👤 By Season Thapa</span></div>
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" alt="Coding" class="post-img">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="day2Carousel">
+                        <div class="carousel-slide"><img src="images/day2/image1.jpg" alt="Game Jam Day 2 image 1"></div>
+                        <div class="carousel-slide"><img src="images/day2/image2.jpg" alt="Game Jam Day 2 image 2"></div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                        <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                    </div>
+                    <div class="carousel-pagination" id="day2CarouselDots"></div>
+                </div>
                 <div class="post-content">
                     <p>The second day we were among the first people to arrive at the Game Jam site, since everyone wanted to get back to work as soon as possible. Just like the first day, we continued to work on our games and build on the framework done yesterday.</p>
                     <p>But as the game got more complex, the more issues we faced. Problems got solved, assets reviewed and changed, new suggestions and ideas made.</p>
@@ -490,7 +510,18 @@
             <article id="day3" class="blog-page">
                 <h2>The Final Lap: From Chaos to Submission</h2>
                 <div class="post-meta"><span>📅 May 19, 2026</span><span>👤 By Aslı Pelinsu Öztürk</span></div>
-                <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" alt="Gaming setup" class="post-img">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="day3Carousel">
+                        <div class="carousel-slide"><img src="images/day3/bbcb2e0b-5828-45bb-ba2c-ea5af7dd0f17.jpg" alt="Game Jam Day 3 image 1"></div>
+                        <div class="carousel-slide"><img src="images/day3/image3.jpg" alt="Game Jam Day 3 image 2"></div>
+                        <div class="carousel-slide"><img src="images/day3/image4.jpg" alt="Game Jam Day 3 image 3"></div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                        <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                    </div>
+                    <div class="carousel-pagination" id="day3CarouselDots"></div>
+                </div>
                 <div class="post-content">
                     <p>On the third and final day, we were back at the campus in the morning, rushing to finish the last parts of the game. For me, there was still a bit more to do than I was comfortable with, so after chugging a few cups of coffee, I locked in to complete the final tasks.</p>
                     <p>As the due time for submission came closer, we all focused on polishing the game mechanics and the assets. When we were in the last stretch, we started exporting and uploading to the website. Besides that we had to do a final video showing off our game for the presentation, which my team's one man army, Alex, edited.</p>
@@ -504,7 +535,18 @@
             <article id="day4" class="blog-page">
                 <h2>First Glimpse of FMX: Badges, Stands, and New Faces</h2>
                 <div class="post-meta"><span>📅 May 19, 2026</span><span>👤 By Mitchell Kerselaers</span></div>
-                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80" alt="Cinema Theatre" class="post-img">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="day4Carousel">
+                        <div class="carousel-slide"><img src="images/day4/image5.jpg" alt="FMX Day 1 image 1"></div>
+                        <div class="carousel-slide"><img src="images/day4/image6.jpg" alt="FMX Day 1 image 2"></div>
+                        <div class="carousel-slide"><img src="images/day4/image7.jpg" alt="FMX Day 2 image 3"></div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
+                        <button class="carousel-button" type="button" aria-label="Next slide" data-direction="next">›</button>
+                    </div>
+                    <div class="carousel-pagination" id="day4CarouselDots"></div>
+                </div>
                 <div class="post-content">
                     <p>When we were on Tuesday, the time for FMX had come. After a quick train ride, we arrived at the Schlossplatz. After getting our badges, we first walked around and visited some stands.</p>
                     <p>Then we decided to go to the Filmakademie Projects: Graduation Project showing, and then we discovered we had chosen the perfect one because some of the students presenting were from some of our teams and people we had hung out with during the Game Jam. It was great since we got to see what else these incredibly creative people did when given more time. After that, we got to play the games they had worked on, which one was a four-player game, so it worked just perfectly.</p>
@@ -522,6 +564,7 @@
                     <div class="carousel" id="day5Carousel">
                         <div class="carousel-slide"><img src="images/day5/69692a03-17e6-4ac9-80a1-3be10b410d2d.jpg" alt="FMX Day 2 image 1"></div>
                         <div class="carousel-slide"><img src="images/day5/d3ce52c1-1f1c-40bd-8cfa-97ca721180a0.jpg" alt="FMX Day 2 image 2"></div>
+                        <div class="carousel-slide"><img src="images/day5/6829ee67-fe5d-404c-8829-8de0f620dc7b.jpg" alt="FMX Day 2 image 3"></div>  
                     </div>
                     <div class="carousel-controls">
                         <button class="carousel-button" type="button" aria-label="Previous slide" data-direction="prev">‹</button>
